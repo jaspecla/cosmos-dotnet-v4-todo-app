@@ -1,0 +1,57 @@
+name: "Adventure Works API Deployment"
+on:
+  push:
+    branches: 
+      - master
+
+env:
+  AZURE_WEBAPP_NAME: private-link-demo-web-jaspecla
+  AZURE_WEBAPP_PACKAGE_NAME: todo
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+
+    # checkout the repo
+    - uses: actions/checkout@master
+    
+    # authenticate to Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.1.813 # Replace with specific dotnet core version
+
+    
+    # dotnet build, test, and publish
+    - name: dotnet build
+      run: dotnet build --configuration Release
+
+    - name: dotnet test
+      run: dotnet test --configuration Release
+
+    - name: dotnet publish
+      run: |
+        dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}/${{ env.AZURE_WEBAPP_PACKAGE_NAME }}
+
+    - name: 'Run Azure webapp deploy action'
+      uses: azure/webapps-deploy@v1
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+        package: ${{ env.DOTNET_ROOT }}/${{ env.AZURE_WEBAPP_PACKAGE_NAME }}
+
+    - name: 'Azure App Service Settings'
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-settings-json: >-
+          [
+          {"name": "CosmosDb:Account", "value": "${{ secrets.COSMOS_DB_ACCOUNT }}", "slotSetting": false},
+          {"name": "CosmosDb:Key", "value": "${{ secrets.COSMOS_DB_KEY }}", "slotSetting": false},
+          {"name": "CosmosDb:DatabaseName", "value": "${{ secrets.COSMOS_DB_DATABASE_NAME }}", "slotSetting": false},
+          {"name": "CosmosDb:ContainerName", "value": "${{ secrets.COSMOS_DB_CONTAINER_NAME }}", "slotSetting": false}
+          ]
