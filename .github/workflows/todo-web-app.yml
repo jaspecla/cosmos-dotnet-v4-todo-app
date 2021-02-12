@@ -1,4 +1,4 @@
-name: "Adventure Works API Deployment"
+name: "Todo App Deployment with Private Endpoints"
 on:
   push:
     branches: 
