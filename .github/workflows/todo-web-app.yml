@@ -7,6 +7,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: private-link-demo-web-jaspecla
   AZURE_WEBAPP_PACKAGE_NAME: todo
+  PROJECT_PATH: 'src/todo.csproj'
 
 jobs:
   build-and-deploy:
@@ -29,14 +30,14 @@ jobs:
     
     # dotnet build, test, and publish
     - name: dotnet build
-      run: dotnet build --configuration Release
+      run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release
 
     - name: dotnet test
-      run: dotnet test --configuration Release
+      run: dotnet test ${{ env.PROJECT_PATH }} --configuration Release
 
     - name: dotnet publish
       run: |
-        dotnet publish -c Release -o ${{ env.DOTNET_ROOT }}/${{ env.AZURE_WEBAPP_PACKAGE_NAME }}
+        dotnet publish ${{ env.PROJECT_PATH }} --configuration Release -o ${{ env.DOTNET_ROOT }}/${{ env.AZURE_WEBAPP_PACKAGE_NAME }}
 
     - name: 'Run Azure webapp deploy action'
       uses: azure/webapps-deploy@v1
