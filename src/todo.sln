@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "todo", "todo.csproj", "{6DB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{7586A05E-DB02-41A5-A771-F80C1E7A63AD}"
 	ProjectSection(SolutionItems) = preProject
+		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\.github\workflows\todo-web-app.yml = ..\.github\workflows\todo-web-app.yml
 	EndProjectSection
 EndProject

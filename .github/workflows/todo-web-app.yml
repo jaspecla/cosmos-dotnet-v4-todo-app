@@ -52,7 +52,7 @@ jobs:
         app-settings-json: >-
           [
           {"name": "CosmosDb:Account", "value": "${{ secrets.COSMOS_DB_ACCOUNT }}", "slotSetting": false},
-          {"name": "CosmosDb:Key", "value": "${{ secrets.COSMOS_DB_KEY }}", "slotSetting": false},
+          {"name": "KeyVaultName", "value": "${{ secrets.KEY_VAULT_NAME }}", "slotSetting": false},
           {"name": "CosmosDb:DatabaseName", "value": "${{ secrets.COSMOS_DB_DATABASE_NAME }}", "slotSetting": false},
           {"name": "CosmosDb:ContainerName", "value": "${{ secrets.COSMOS_DB_CONTAINER_NAME }}", "slotSetting": false},
           {"name": "WEBSITE_VNET_ROUTE_ALL", "value": "1", "slotSetting": false},
