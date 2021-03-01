@@ -20,7 +20,7 @@
                .ConfigureAppConfiguration((context, config) =>
                {
                  var builtConfig = config.Build();
-                 var secretClient = new SecretClient(new Uri($"{builtConfig["KeyVaultName"]}.vault.azure.net/"),
+                 var secretClient = new SecretClient(new Uri($"https://{builtConfig["KeyVaultName"]}.vault.azure.net/"),
                    new DefaultAzureCredential());
                  config.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
                })
